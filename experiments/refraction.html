@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#28292c"/>
+  <title>光的折射实验 | 万有引力事务所</title>
+  <link rel="icon" href="../assets/avatar.png" type="image/png"/>
+  <link rel="stylesheet" href="../css/site.css"/>
+</head>
+<body>
+<header class="topbar"><div class="shell top-inner"><a aria-label="万有引力事务所首页" class="logo" href="../index.html"><img class="logo-mark" src="../assets/avatar.png" alt="万有引力事务所头像"/><span>万有引力事务所<small>GRAVITY STUDIO</small></span></a><nav class="nav" aria-label="网站导航"><a class="active" href="../index.html#home">实验演示</a><a href="../index.html#materials">学习资料</a></nav><span class="top-note">小芬爱思考</span></div></header>
+<main class="shell"><section class="section lab-page"><a class="back" href="../index.html#home">← 返回实验室</a>
+<div class="lab-heading"><div><h2>光的折射实验</h2><p>改变入射角与介质，观察折射光线方向，并探索全反射。</p></div><span class="pill">EXPERIMENT 02</span></div>
+<div class="lab-grid">
+  <div class="panel">
+    <div class="panel-title">动态光路演示</div>
+    <svg id="refractionSvg" class="graph" viewBox="0 0 1000 490" role="img" aria-label="入射、反射和折射光路动态图"><g id="refractionDiagram"></g></svg>
+    <div class="legend"><span><i style="background:#f37021"></i>入射光</span><span><i style="background:#4b9dbb"></i>折射光</span><span><i style="background:#8e9aa7"></i>反射光</span></div>
+    <div class="lab-readout"><div class="metric"><span>入射角 i</span><strong id="iRead">45°</strong></div><div class="metric"><span>折射角 r</span><strong class="orange" id="rRead">32.1°</strong></div><div class="metric"><span>折射状态</span><strong id="stateRead" style="font-size:15px">向法线偏折</strong></div></div>
+    <div class="theory"><b id="refractionResult">折射光线向法线偏折</b><br/><span id="refractionDesc">光由空气斜射入水，折射角小于入射角。</span></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">实验参数 · 观察折射</div>
+    <div class="control-row"><div class="control-top"><label for="mediumPair">传播方向与介质</label></div>
+      <select class="select" id="mediumPair">
+        <option value="air-water">空气 → 水</option>
+        <option value="air-glass">空气 → 玻璃</option>
+        <option value="water-air">水 → 空气</option>
+        <option value="glass-air">玻璃 → 空气</option>
+      </select>
+    </div>
+    <div class="control-row"><div class="control-top"><label for="incidenceSlider">入射角 i（与法线夹角）</label><b id="incidenceLabel">45°</b></div>
+      <input id="incidenceSlider" type="range" min="0" max="85" value="45" step="1"/>
+      <div class="range-end"><span>0°</span><span>85°</span></div>
+    </div>
+    <div class="fixed-focus" id="indicesReadout">第一介质 n₁ ≈ 1.00 · 第二介质 n₂ ≈ 1.33</div>
+    <button id="resetRefraction" type="button" class="soft-btn">↺ 重置实验</button>
+    <div class="theory"><b>折射定律（斯涅尔定律）</b><br/>n₁ sin i = n₂ sin r<br/><span style="font-size:12px">入射角和折射角都从法线开始测量。本演示采用近似折射率。</span></div>
+    <div class="mini-info">当光从光密介质射向光疏介质且入射角超过临界角时，发生全反射，图中不再绘制传播的折射光。</div>
+  </div>
+</div></section></main>
+<footer class="shell footer"><span><strong>万有引力事务所</strong> · Gravity Studio · 杵教育</span><span>探索 · 观察 · 思考</span></footer>
+<script defer src="refraction.js"></script>
+</body>
+</html>

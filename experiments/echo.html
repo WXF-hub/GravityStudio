@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#28292c" />
+<meta name="description" content="万有引力事务所：汽艇与回声动态路程实验" />
+<title>汽艇与回声实验 | 万有引力事务所</title>
+<link rel="icon" type="image/png" href="../assets/avatar.png" />
+<link rel="stylesheet" href="../css/site.css" />
+<link rel="stylesheet" href="echo.css" />
+<script defer src="echo.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="shell top-inner">
+<a aria-label="万有引力事务所首页" class="logo" href="../index.html"><img class="logo-mark" src="../assets/avatar.png" alt="万有引力事务所头像" /><span>万有引力事务所<small>GRAVITY STUDIO</small></span></a>
+<nav aria-label="网站导航" class="nav"><a class="active" href="../index.html#home">实验演示</a><a href="../index.html#materials">学习资料</a></nav><span class="top-note">探索 · 观察 · 思考</span>
+</div></header>
+<main class="shell">
+<section class="section lab-page">
+<a href="../index.html#home" class="back">← 返回实验室</a>
+<div class="lab-heading"><div><h2>汽艇与回声 · 路程累计实验</h2><p>汽艇匀速驶向山崖，喊声经山崖反射后，被正在行驶的汽艇接收到。</p></div><span class="pill">EXPERIMENT 03 · 声学</span></div>
+<div class="lab-grid echo-layout">
+<section class="panel" aria-label="动态演示">
+<div class="panel-title">动态演示 · 保留每一段已走过的路程</div>
+<svg id="echoSvg" class="graph" viewBox="0 0 900 390" role="img" aria-label="上方显示声音去程回程与汽艇路线，下方以累计长度条证明路程和等于初始距离两倍">
+<defs><marker id="echoArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#f37021" /></marker></defs>
+<rect width="900" height="390" fill="#f9fbfc" />
+<rect y="208" width="900" height="70" fill="#d7edf6" />
+<path d="M0 208H900" stroke="#7cb4c9" stroke-width="2" />
+<!-- 山崖 -->
+<path d="M773 35L820 58 803 97 839 124 805 208H900V0H817Z" fill="#777b81" stroke="#50535a" stroke-width="2"/>
+<text x="777" y="24" class="echo-svg-label">山崖</text>
+<line x1="112" y1="95" x2="112" y2="239" stroke="#9baab1" stroke-dasharray="5 5"/>
+<text x="38" y="244" class="echo-svg-small">初始位置</text>
+<!-- 声音去程：始终保留 -->
+<line id="outgoingTrail" x1="112" y1="105" x2="112" y2="105" stroke="#f37021" stroke-width="6" stroke-linecap="round"/>
+<!-- 声音回程：到达山崖之后保留 -->
+<line id="returnTrail" x1="773" y1="133" x2="773" y2="133" stroke="#4b9dbb" stroke-width="6" stroke-linecap="round"/>
+<!-- 汽艇走过的路径：一直保留 -->
+<line id="boatTrail" x1="112" y1="220" x2="112" y2="220" stroke="#319273" stroke-width="7" stroke-linecap="round"/>
+<g id="boat" transform="translate(112,0)">
+<path d="M-38 193H35L20 214H-22Z" fill="#303030"/>
+<rect x="-16" y="175" width="36" height="18" rx="3" fill="#f37021"/>
+<rect x="-8" y="179" width="12" height="9" fill="#d1ecf5"/>
+</g>
+<!-- 波前点：到达山崖后反向 -->
+<circle id="soundDot" cx="112" cy="105" r="8" fill="#f37021" stroke="white" stroke-width="2"/>
+<text id="stageText" x="450" y="38" text-anchor="middle" fill="#c55516" font-size="19" font-weight="700">准备发出喊声</text>
+<text x="112" y="303" class="echo-svg-small">起点</text>
+<text x="773" y="303" text-anchor="end" class="echo-svg-small">山崖</text>
+<line x1="112" y1="292" x2="773" y2="292" stroke="#888" stroke-dasharray="5 4" />
+<text x="440" y="287" text-anchor="middle" class="echo-svg-label">初始距离 s</text>
+<!-- 累计路程条：总长度 = 2s，橙蓝之和为声音路程，绿色为汽艇路程 -->
+<text x="35" y="328" class="echo-svg-small">累计路程（0 ～ 2s）</text>
+<rect x="112" y="338" width="661" height="17" rx="7" fill="#e5e8ea"/>
+<rect id="boatBar" x="112" y="338" width="0" height="17" rx="5" fill="#319273" />
+<rect id="soundBar" x="112" y="338" width="0" height="17" rx="5" fill="#f37021" />
+<line x1="442.5" y1="331" x2="442.5" y2="362" stroke="#50565d" stroke-dasharray="3 3"/>
+<text x="112" y="374" class="echo-svg-small">0</text>
+<text x="442.5" y="374" text-anchor="middle" class="echo-svg-small">s</text>
+<text x="773" y="374" text-anchor="end" class="echo-svg-small">2s</text>
+</svg>
+<div class="echo-legend">
+<span><i style="background:#f37021"></i>声音去程</span>
+<span><i style="background:#4b9dbb"></i>声音回程</span>
+<span><i style="background:#319273"></i>汽艇已行驶</span>
+</div>
+<div class="echo-stats">
+<div class="echo-stat"><span>汽艇累计 s₁</span><strong id="boatDistanceNow">0.0 m</strong></div>
+<div class="echo-stat"><span>声音去程 + 回程 s₂</span><strong id="soundDistanceNow">0.0 m</strong></div>
+<div class="echo-stat"><span>当前累计和 s₁ + s₂</span><strong id="sumNow">0.0 m</strong></div>
+<div class="echo-stat"><span>初始距离的两倍 2s</span><strong id="doubleInitial">0.0 m</strong></div>
+</div>
+<div class="echo-status" id="echoStatus" aria-live="polite">调整参数，然后点击“发出喊声”。</div>
+<div class="theory"><b>怎么看路程？</b><br/>上方橙线保留声音从喊话点到山崖的去程，蓝线保留声音从山崖返回的路程，绿线保留汽艇前进的路程。下方累计路程条将<strong>汽艇路程 + 声音总路程</strong>首尾相接，回声抵达汽艇时恰好填满 <strong>2s</strong>。</div>
+</section>
+<section class="panel" aria-label="参数和计算">
+<div class="panel-title">实验参数</div>
+<div class="control-row"><div class="control-top"><label for="boatSpeed">汽艇速度 v₁</label><b id="boatSpeedLabel">10 m/s</b></div><input id="boatSpeed" type="range" min="2" max="30" step="1" value="10" /><div class="range-end"><span>2 m/s</span><span>30 m/s</span></div></div>
+<div class="control-row"><div class="control-top"><label for="soundSpeed">空气中声速 v₂</label><b id="soundSpeedLabel">340 m/s</b></div><input id="soundSpeed" type="range" min="300" max="360" step="5" value="340" /><div class="range-end"><span>300 m/s</span><span>360 m/s</span></div></div>
+<div class="control-row"><div class="control-top"><label for="echoTime">接收到回声的时间 t</label><b id="echoTimeLabel">4 s</b></div><input id="echoTime" type="range" min="1" max="10" step="0.5" value="4" /><div class="range-end"><span>1 s</span><span>10 s</span></div></div>
+<div class="echo-buttons"><button id="echoPlay" class="primary" type="button">▶ 发出喊声 / 继续</button><button id="echoPause" class="soft-btn" type="button">暂停</button><button id="echoReset" class="soft-btn" type="button">↺ 重置</button></div>
+<div class="echo-clock">经过时间：<strong id="elapsedTime">0.00 s</strong></div>
+<div class="echo-values">
+<div><span>汽艇总路程 s₁</span><b id="boatTotal">40.0 m</b></div>
+<div><span>声音总路程 s₂</span><b id="soundTotal">1360.0 m</b></div>
+<div><span>初始距离 s</span><b id="initialDistance">700.0 m</b></div>
+<div><span>回声到达山崖的时刻</span><b id="hitTime">2.06 s</b></div>
+</div>
+<div class="theory"><b>核心关系</b><br/>声音的去程 + 回程，加上汽艇朝山崖行驶的路程，等于喊话时汽艇到山崖距离的两倍。<div class="echo-formula">s₁ + s₂ = 2s</div><div class="echo-formula">v₁t + v₂t = 2s</div><div class="echo-formula">s = (v₁ + v₂)t / 2</div></div>
+<div class="mini-info">说明：动画采用加速播放，画面距离按每次设置的初始距离等比例显示。线段和路程条表示累计路径，不代表同时存在的多束声波。</div>
+</section>
+</div>
+</section>
+</main>
+<footer class="shell footer"><span><strong>万有引力事务所</strong> · Gravity Studio · 杵教育</span><span>制作者：王小芬</span></footer>
+</body>
+</html>
