@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>水位上涨：池底与天花板双光斑｜万有引力事务所</title>
+<style>
+:root{--orange:#f37021;--gray:#303030;--blue:#2386b1;--bg:#f5f6f7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--gray);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}main{max-width:1120px;margin:auto;padding:20px}header{background:var(--gray);color:white;padding:24px 28px;border-radius:16px}header a{color:#ffb47b;text-decoration:none;font-size:14px}header h1{margin:13px 0 8px;font-size:clamp(24px,4vw,36px)}header p{color:#d0d0d0;line-height:1.8;margin:0}.card{background:white;border-radius:15px;margin-top:17px;padding:20px;box-shadow:0 4px 20px #00000008}h2{font-size:19px;margin:0 0 16px}#scene{width:100%;height:auto;display:block;border:1px solid #edf0f2;border-radius:12px;background:linear-gradient(180deg,#fafcfe,#f2f9fc)}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:#59636b;margin:12px 0 0}.dot{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:5px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:18px}.control label{display:flex;justify-content:space-between;gap:8px;font-size:15px;font-weight:600;margin-bottom:10px}.control strong{color:#d55a12}input[type=range]{width:100%;accent-color:var(--orange)}.buttons{display:flex;gap:10px;flex-wrap:wrap}button{font:inherit;border:0;border-radius:9px;padding:11px 17px;cursor:pointer;background:#e8eaed;color:var(--gray);font-weight:600}button.primary{background:var(--orange);color:white}button:focus-visible{outline:3px solid #397fa9;outline-offset:3px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.stat{background:#fff2e9;border-radius:10px;padding:14px}.stat span{display:block;color:#7b6456;font-size:12px}.stat strong{display:block;font-size:20px;margin-top:6px;color:#b34c0e}.insight{background:#fff4ec;border-left:4px solid var(--orange);padding:14px 17px;line-height:1.8;border-radius:8px}.formula{font-weight:700;font-size:17px;margin:12px 0;text-align:center;color:#b64e0f}small{color:#69757e}footer{text-align:center;padding:30px 0;color:#78838a;font-size:13px}@media(max-width:650px){main{padding:10px}.card{padding:13px}header{padding:20px}.controls{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.stat strong{font-size:17px}.legend{gap:10px}}
+</style>
+</head>
+<body><main>
+<header><a href="../index.html">← 返回万有引力事务所 · 互动实验室</a><h1>水位上涨，池底和天花板的光斑怎样移动？</h1><p>模拟固定探照灯向池底斜射光束：只提高水面，不改变探照灯与入射光线方向。观察入射点、池底折射光斑与天花板反射光斑的变化，并比较两者的位移。</p></header>
+<section class="card"><h2>动态光路实验</h2>
+<svg id="scene" viewBox="0 0 880 520" role="img" aria-label="水面升高后，反射光斑与折射光斑均向左移动的光路图">
+<defs><marker id="arrO" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0 0L7 3L0 6Z" fill="#f37021"/></marker><marker id="arrR" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0 0L7 3L0 6Z" fill="#8e52b7"/></marker><marker id="arrB" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0 0L7 3L0 6Z" fill="#2386b1"/></marker><linearGradient id="water" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#adddeb" stop-opacity=".65"/><stop offset="1" stop-color="#7abfd9" stop-opacity=".75"/></linearGradient></defs>
+<rect x="75" y="21" width="700" height="399" rx="8" fill="#fafcfe"/>
+<!-- 水池上方的天花板 -->
+<line x1="75" y1="21" x2="775" y2="21" stroke="#434a50" stroke-width="5"/>
+<text x="783" y="25" font-size="14" fill="#4c535a">天花板</text>
+<rect id="waterFill" x="75" y="372" width="700" height="48" fill="url(#water)"/>
+<path d="M75 90V420H775V90" stroke="#64727c" stroke-width="7" stroke-linejoin="round" fill="none"/>
+<line id="waterLine" x1="76" x2="774" y1="372" y2="372" stroke="#2589b6" stroke-width="2.5"/>
+<text id="waterText" x="788" y="376" font-size="15" fill="#246f8b">水面</text>
+<text x="788" y="416" font-size="15" fill="#5b6b75">池底</text>
+<!-- 固定的灯与入射方向提示 -->
+<g transform="translate(110,45) rotate(-36.87)"><rect x="-29" y="-13" width="30" height="26" rx="4" fill="#303030"/><path d="M0-17L23-10V10L0 17Z" fill="#f37021" stroke="#303030" stroke-width="2"/><circle cx="23" cy="0" r="4" fill="#f7c279"/></g>
+<text x="24" y="23" font-size="15" fill="#303030">固定探照灯</text>
+<!-- 不考虑折射时光沿原方向延伸的参考 -->
+<path id="straightGuide" d="" fill="none" stroke="#abb4bc" stroke-dasharray="5 6" stroke-width="1.6"/>
+<path id="oldRay" d="" fill="none" stroke="#9a9fa9" stroke-width="2" stroke-dasharray="6 5"/>
+<path id="oldReflection" d="" fill="none" stroke="#a9a0b4" stroke-width="2" stroke-dasharray="5 5"/>
+<line id="oldSurface" x1="75" x2="775" y1="372" y2="372" stroke="#8797a2" stroke-dasharray="4 8" stroke-width="1" opacity=".65"/>
+<path id="incident" d="" fill="none" stroke="#f37021" stroke-width="4" stroke-linecap="round" marker-end="url(#arrO)"/>
+<path id="refracted" d="" fill="none" stroke="#2386b1" stroke-width="4" stroke-linecap="round" marker-end="url(#arrB)"/>
+<path id="reflected" d="" fill="none" stroke="#8e52b7" stroke-width="3.5" stroke-linecap="round" marker-end="url(#arrR)"/>
+<line id="normal" x1="0" x2="0" y1="0" y2="0" stroke="#929da5" stroke-width="1.7" stroke-dasharray="6 5"/>
+<circle id="entry" cx="0" cy="0" r="6" fill="#f37021" stroke="white" stroke-width="2"/>
+<circle id="spot" cx="0" cy="420" r="8" fill="#f37021" opacity=".9"/>
+<circle id="originalSpot" cx="0" cy="420" r="9" stroke="#9a9fa9" stroke-dasharray="3 3" stroke-width="2.5" fill="none"/>
+<!-- 天花板反射光斑：实心紫色为当前，虚线轮廓为初始 -->
+<circle id="ceilingSpot" cx="0" cy="21" r="7" fill="#8e52b7"/>
+<circle id="originalCeilingSpot" cx="0" cy="21" r="9" fill="none" stroke="#9e93aa" stroke-width="2.3" stroke-dasharray="3 3"/>
+<text id="ceilingSpotLabel" x="0" y="49" font-size="13" fill="#71419c" text-anchor="middle" font-weight="bold">当前反射光斑 B</text>
+<text id="originalCeilingLabel" x="0" y="70" font-size="12" fill="#877e91" text-anchor="middle">原光斑 B₀</text>
+<line id="spotShiftLine" x1="0" x2="0" y1="443" y2="443" stroke="#f37021" stroke-width="3"/>
+<text id="spotLabel" x="0" y="399" text-anchor="middle" fill="#b34f15" font-size="14" font-weight="bold">现光斑 A</text>
+<text id="originalLabel" x="0" y="466" text-anchor="middle" fill="#6d7983" font-size="13">原光斑 A</text>
+<text id="entryLabel" x="0" y="0" font-size="14" fill="#b34f15">入射点 P</text>
+<text id="angleLabel" x="0" y="0" font-size="13" fill="#586e7b">i = 36.9° ｜ r = 26.7°</text>
+<text x="90" y="112" fill="#ae571d" font-size="15">入射光线方向固定</text>
+<text x="545" y="112" fill="#71419c" font-size="14">反射光线：方向不变</text>
+<text x="535" y="395" fill="#217a9f" font-size="14">水中折射光线</text>
+</svg>
+<div class="legend"><span><i class="dot" style="background:#f37021"></i>橙色：固定方向的入射光及当前光斑</span><span><i class="dot" style="background:#2386b1"></i>蓝色：水中的折射光</span><span><i class="dot" style="background:#8e52b7"></i>紫色：射向天花板的反射光</span><span><i class="dot" style="background:#9a9fa9"></i>灰色虚线：起始状态参考</span></div>
+</section>
+<section class="card"><div class="controls"><div class="control"><label for="level">池中水深 <strong id="levelValue">0.60 m</strong></label><input id="level" type="range" min="0.6" max="2.8" value="0.6" step="0.02"></div><div class="control"><label for="index">水的折射率（验证拓展）<strong id="indexValue">1.333</strong></label><input id="index" type="range" min="1.20" max="1.60" value="1.333" step="0.001"></div></div><div class="buttons" style="margin-top:17px"><button class="primary" id="play">▶ 自动注水</button><button id="pause">暂停</button><button id="reset">↺ 重置</button><button id="toggleOriginal" aria-pressed="true">显示 / 隐藏初始光路</button></div></section>
+<section class="card"><h2>实时观察</h2><div class="stats"><div class="stat"><span>水深</span><strong id="statH">0.60 m</strong></div><div class="stat"><span>入射点向左移动</span><strong id="statP">0.00 m</strong></div><div class="stat"><span>池底光斑向左移动</span><strong id="statA">0.00 m</strong></div><div class="stat"><span>天花板光斑向左移动</span><strong id="statB">0.00 m</strong></div><div class="stat"><span>折射角（与法线夹角）</span><strong id="statR">26.7°</strong></div></div><p id="status" class="insight" aria-live="polite" style="margin-top:18px">水面尚未升高。点击「自动注水」或拖动水深滑块。</p></section>
+<section class="card"><h2>课堂讲解：水底和天花板的光斑为什么都向左移动？</h2><div class="insight"><b>① 光源和入射方向固定：</b>光在空气中的传播方向不变，水面升高会使入射光线更早与水面相遇，所以入射点沿固定入射光线向左上方移动。<br><b>② 折射方向不变：</b>水面仍然水平，入射角不变；空气和水的折射率不变，折射角也不变，因此不同水位下的水中折射光线互相平行。<br><b>③ 池底光斑左移：</b>水中光线比空气中的原方向更靠近法线；水越深，光在水中行进的那段越长，于是池底的落点越向左。<br><b>④ 反射光斑也左移：</b>水平水面的法线始终竖直，入射角不变，反射角也不变，所以水面升高时各条反射光线相互平行；反射起点左上移，射到固定高度天花板上的落点向左移动。</div><p class="formula">水面上升 Δh：池底光斑左移 Δxₐ = (tan i − tan r)Δh；天花板光斑左移 Δxᵦ = 2Δh tan i。</p><small>理想化条件：固定探照灯、水平水面、均匀介质、光从空气斜射入水，忽略水面波动及光束宽度；假设天花板为固定水平面，且两处光斑始终落在展示范围内。折射方向保持不变，指折射角不变，并非折射光线始终位于同一条直线上。</small></section>
+<footer>万有引力事务所 · GRAVITY STUDIO · 反射与折射互动实验</footer></main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);const x0=110,y0=45,bottom=420,ceiling=21,pxPerMeter=80,baseH=0.6;
+const tanI=0.75;const i=Math.atan(tanI);let running=false,raf=null,last=null,showOriginal=true;
+function geo(h,n){const sy=bottom-pxPerMeter*h,entryX=x0+(sy-y0)*tanI;const r=Math.asin(Math.sin(i)/n);const tanR=Math.tan(r);const floorX=entryX+(bottom-sy)*tanR;const ceilingX=entryX+(sy-ceiling)*tanI;return {sy,entryX,floorX,ceilingX,r,tanR};}
+function attr(id,vals){for(const [k,v] of Object.entries(vals))$(id).setAttribute(k,v)}
+function update(){const h=Number($('level').value),n=Number($('index').value),g=geo(h,n),g0=geo(baseH,n),shiftP=(g0.entryX-g.entryX)/pxPerMeter,shiftA=(g0.floorX-g.floorX)/pxPerMeter,shiftB=(g0.ceilingX-g.ceilingX)/pxPerMeter;
+ $('levelValue').textContent=h.toFixed(2)+' m';$('indexValue').textContent=n.toFixed(3);
+ attr('waterFill',{y:g.sy,height:bottom-g.sy});attr('waterLine',{y1:g.sy,y2:g.sy});attr('waterText',{y:g.sy+5});
+ attr('incident',{d:`M ${x0} ${y0} L ${g.entryX} ${g.sy}`});attr('reflected',{d:`M ${g.entryX} ${g.sy} L ${g.ceilingX} ${ceiling}`});attr('refracted',{d:`M ${g.entryX} ${g.sy} L ${g.floorX} ${bottom}`});
+ attr('straightGuide',{d:`M ${x0} ${y0} L ${x0+(bottom-y0)*tanI} ${bottom}`});
+ attr('normal',{x1:g.entryX,y1:g.sy-42,x2:g.entryX,y2:g.sy+49});
+ attr('entry',{cx:g.entryX,cy:g.sy});attr('spot',{cx:g.floorX,cy:bottom});attr('originalSpot',{cx:g0.floorX,cy:bottom});attr('ceilingSpot',{cx:g.ceilingX,cy:ceiling});attr('originalCeilingSpot',{cx:g0.ceilingX,cy:ceiling});attr('ceilingSpotLabel',{x:g.ceilingX,y:49});attr('originalCeilingLabel',{x:g0.ceilingX,y:70});
+ attr('oldRay',{d:`M ${x0} ${y0} L ${g0.entryX} ${g0.sy} L ${g0.floorX} ${bottom}`});attr('oldReflection',{d:`M ${g0.entryX} ${g0.sy} L ${g0.ceilingX} ${ceiling}`});attr('oldSurface',{y1:g0.sy,y2:g0.sy});
+ attr('entryLabel',{x:g.entryX+10,y:g.sy-14});attr('spotLabel',{x:g.floorX,y:bottom-19});attr('originalLabel',{x:g0.floorX,y:bottom+46});attr('angleLabel',{x:g.entryX+17,y:g.sy+61});
+ $('angleLabel').textContent=`i=${(i*180/Math.PI).toFixed(1)}°，r=${(g.r*180/Math.PI).toFixed(1)}°`;
+ attr('spotShiftLine',{x1:Math.min(g.floorX,g0.floorX),x2:Math.max(g.floorX,g0.floorX)});
+ $('statH').textContent=h.toFixed(2)+' m';$('statP').textContent=shiftP.toFixed(2)+' m';$('statA').textContent=shiftA.toFixed(2)+' m';$('statB').textContent=shiftB.toFixed(2)+' m';$('statR').textContent=(g.r*180/Math.PI).toFixed(1)+'°';
+ for(const id of ['oldRay','oldReflection','originalSpot','originalLabel','originalCeilingSpot','originalCeilingLabel','oldSurface','spotShiftLine'])$(id).style.display=showOriginal?'':'none';
+ $('status').textContent=h<=baseH+0.001?'水面尚未升高。点击「自动注水」或拖动水深滑块。':`水面升高 ${(h-baseH).toFixed(2)} m；入射点左移 ${shiftP.toFixed(2)} m；池底光斑左移 ${shiftA.toFixed(2)} m；天花板反射光斑左移 ${shiftB.toFixed(2)} m。反射角与折射角均不变，两组光线各自平行。`;
+ }
+ function stop(){running=false;last=null;if(raf!==null){cancelAnimationFrame(raf);raf=null;}}
+ function tick(t){if(!running)return;if(last!==null){let val=Number($('level').value)+(t-last)/1000*0.35;$('level').value=Math.min(2.8,val);update();if(val>=2.8){stop();return;}}last=t;raf=requestAnimationFrame(tick)}
+ $('play').addEventListener('click',()=>{if(running)return;if(Number($('level').value)>=2.799)$('level').value=baseH;running=true;last=null;raf=requestAnimationFrame(tick)});
+ $('pause').addEventListener('click',stop);$('reset').addEventListener('click',()=>{stop();$('level').value=baseH;$('index').value=1.333;showOriginal=true;update()});
+ $('toggleOriginal').addEventListener('click',()=>{showOriginal=!showOriginal;$('toggleOriginal').setAttribute('aria-pressed',String(showOriginal));update()});
+ for(const id of ['level','index'])$(id).addEventListener('input',()=>{stop();update()});update();
+})();
+</script></body></html>

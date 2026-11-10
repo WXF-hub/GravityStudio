@@ -1,0 +1,21 @@
+/* 回声实验专属排版，不影响其他实验与资料库 */
+.echo-layout{grid-template-columns:minmax(0,1.55fr) minmax(300px,.83fr)}
+.echo-svg-label{font-size:15px;fill:#5d686e;font-weight:600}
+.echo-svg-small{font-size:13px;fill:#6c7880}
+.echo-legend{display:flex;gap:18px;flex-wrap:wrap;margin:13px 0 5px;color:#596167;font-size:12px}
+.echo-legend i{display:inline-block;width:21px;height:4px;vertical-align:middle;margin-right:6px;border-radius:4px}
+.echo-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:18px}
+.echo-stat{padding:11px 13px;border-radius:9px;background:#f7f8f8;min-width:0}
+.echo-stat span{display:block;color:#697077;font-size:11px}
+.echo-stat strong{display:block;margin-top:6px;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.echo-status{margin-top:16px;min-height:24px;color:#b45417;font-weight:700;font-size:13px;line-height:1.6}
+.echo-buttons{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 16px}
+.echo-buttons button{flex:1;padding-left:8px;padding-right:8px}
+.echo-clock{font-size:13px;color:#70777d;margin-bottom:16px}
+.echo-clock strong{color:#d45d1d;font-size:19px}
+.echo-values{display:grid;gap:8px}
+.echo-values>div{display:flex;justify-content:space-between;gap:8px;padding:10px 12px;background:#f7f8f8;border-radius:7px;font-size:12px;align-items:center}
+.echo-values b{font-size:15px;white-space:nowrap;color:#c75619}
+.echo-formula{font-size:17px;font-weight:750;text-align:center;color:#bd561d;margin:6px 0;font-variant-numeric:tabular-nums}
+@media(max-width:900px){.echo-layout{grid-template-columns:1fr}}
+@media(max-width:530px){.echo-stats{gap:6px}.echo-stat{padding:9px}.echo-stat strong{font-size:15px}.echo-buttons .primary{width:100%;flex:0 0 100%}}

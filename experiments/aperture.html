@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>凸透镜部分遮挡 · 光路验证实验 | 万有引力事务所</title>
+<style>
+:root{--orange:#f37021;--ink:#303030;--blue:#237ca8;--red:#e14d56;--muted:#66717c;--bg:#f3f5f7;--green:#168469}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}.shell{max-width:1220px;margin:auto;padding:22px 16px 48px}header{background:#303030;border-radius:18px;color:white;padding:22px 26px}header small{letter-spacing:.15em;color:#ffb37f}h1{margin:5px 0 3px;font-size:clamp(23px,3.2vw,34px)}header p{margin:0;color:#d7d8da}.panel{background:white;border-radius:15px;margin-top:15px;padding:20px;box-shadow:0 6px 22px #16223309}.layout{display:grid;grid-template-columns:1fr 330px;gap:16px;align-items:start}.viz svg{width:100%;height:auto;display:block;background:#fbfcfd;border:1px solid #e2e6eb;border-radius:12px}.viz .note{color:var(--muted);font-size:13px;margin-top:10px}.legend{display:flex;gap:18px;flex-wrap:wrap;margin:13px 0 0;font-size:13px}.swatch{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:5px}.controls h2{font-size:18px;margin:0 0 12px}.formrow{margin:18px 0}.formrow label{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px}.formrow output{font-weight:700;color:#c45b16}input[type=range]{width:100%;accent-color:var(--orange)}select,button{font:inherit;border-radius:9px;padding:9px 12px}select{border:1px solid #ccd2d8;background:white;width:100%}button{cursor:pointer;border:0;background:var(--orange);color:white;font-weight:650}button.secondary{background:#e9edf1;color:#303030}.buttons{display:flex;gap:8px;flex-wrap:wrap}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{border-radius:10px;background:#f6f7f9;padding:12px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:22px;color:var(--ink)}.metric.accent{background:#fff0e5}.metric.accent strong{color:#bb5315}.readout{margin-top:14px;padding:13px 14px;background:#fff6ef;border-left:4px solid var(--orange);border-radius:9px;font-size:14px}.explain h2{font-size:19px;margin:0 0 10px}.explain p{margin:7px 0}.explain strong{color:#a9470b}.details{font-size:13px;color:#646b75}.footer{font-size:12px;text-align:center;color:#84909b;margin-top:20px}@media(max-width:920px){.layout{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px}.controls h2,.buttons,.metrics,.readout{grid-column:1/-1}}@media(max-width:580px){.shell{padding:10px 8px 30px}.panel{padding:12px}.controls{display:block}header{padding:18px}.legend{gap:9px}}
+.clickpoint{cursor:crosshair}.point-hint{font-size:12px;fill:#947044}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><a href="../index.html#home" style="float:right;color:#ffb681;text-decoration:none;font-weight:650">← 返回实验室</a><small>GRAVITY STUDIO · 光学实验</small><h1>遮住凸透镜的一部分，为什么像仍然完整？</h1><p>追踪每束光的去向：没有射中透镜、被遮罩拦住、成功穿过透镜。</p></header>
+<div class="panel layout">
+<section class="viz" aria-label="光学模拟">
+<svg id="scene" viewBox="0 0 1050 540" role="img" aria-label="物体、凸透镜、遮光板、屏幕及追迹光线">
+<defs>
+<clipPath id="worldClip"><rect x="2" y="2" width="1046" height="536"/></clipPath>
+<linearGradient id="lensFill" x1="0" x2="1"><stop offset="0" stop-color="#d6eff9"/><stop offset=".5" stop-color="#77b7d4"/><stop offset="1" stop-color="#d6eff9"/></linearGradient>
+</defs>
+<rect x="0" y="0" width="1050" height="540" rx="12" fill="#fcfdff"/>
+<line x1="30" y1="275" x2="1015" y2="275" stroke="#a7b0bb" stroke-width="1.5" stroke-dasharray="7 6"/>
+<text x="34" y="263" font-size="14" fill="#7b8590">主光轴</text>
+<line x1="865" y1="65" x2="865" y2="478" stroke="#7c8992" stroke-width="3"/>
+<rect x="870" y="66" width="115" height="411" rx="8" fill="#2e3238"/>
+<text x="924" y="53" text-anchor="middle" font-size="17" fill="#303030">光屏</text>
+<g id="lightRays" clip-path="url(#worldClip)"></g>
+<path id="lensBody" d="M490 115 Q455 275 490 435 Q525 275 490 115 Z" fill="url(#lensFill)" fill-opacity=".7" stroke="#2585ac" stroke-width="2.5"/>
+<g id="shutter"></g>
+<g id="source" pointer-events="none"></g>
+<rect id="selectHitArea" x="95" y="145" width="70" height="150" fill="transparent" class="clickpoint" style="display:none"><title>点击箭头任意高度选取发光点</title></rect>
+<g id="image"></g>
+<text x="488" y="458" font-size="17" fill="#303030" text-anchor="middle">凸透镜</text>
+<text x="488" y="478" font-size="13" fill="#818995" text-anchor="middle">F、2F 及光屏位置不变</text>
+<text x="490" y="265" font-size="13" fill="#516878" text-anchor="middle">O</text>
+<g id="focalMarks"></g>
+<g id="shutterLabel"></g>
+</svg>
+<div class="legend">
+<span><i class="swatch" style="background:#9a9fa9"></i>灰：未射中透镜</span>
+<span><i class="swatch" style="background:#e14d56"></i>红：被遮罩挡住</span>
+<span><i class="swatch" style="background:#f37021"></i>橙：穿过透镜并成像</span>
+</div>
+<div class="note">在「选取物体上的单点」模式下，直接点击左边物体箭头，或调整选点滑块。只显示该物点的光线；观察像点如何随选点位置改变。</div>
+</section>
+<section class="controls">
+<h2>操作实验</h2>
+<div class="formrow"><label for="mode">物体类型</label><select id="mode"><option value="selected">选取物体上的单个发光点（可点击箭头）</option><option value="point">独立点光源 S</option><option value="arrow">整个发光箭头</option></select></div>
+<div class="formrow" id="pointRow"><label for="pointPosition">物点位置 <output id="pointValue">顶部 100%</output></label><input id="pointPosition" type="range" min="0" max="100" step="1" value="100"/><div style="font-size:12px;color:#66717c">0% 是箭头根部，100% 是箭头顶部；也可以直接点击物体箭头。</div></div>
+<div class="formrow"><label for="direction">遮挡方向</label><select id="direction"><option value="top">从上往下遮挡</option><option value="bottom">从下往上遮挡</option></select></div>
+<div class="formrow"><label for="coverage">遮挡比例 <output id="coverageValue">50%</output></label><input id="coverage" type="range" min="0" max="95" step="1" value="50"/></div>
+<div class="buttons"><button id="play">▶ 自动演示</button><button class="secondary" id="reset">↻ 重置</button></div>
+<div class="metrics" style="margin-top:20px">
+<div class="metric"><span>原可通过透镜的示踪光线</span><strong id="eligibleCount">0</strong></div>
+<div class="metric"><span>被遮住的示踪光线</span><strong id="blockedCount">0</strong></div>
+<div class="metric"><span>成功通过的示踪光线</span><strong id="passedCount">0</strong></div>
+<div class="metric accent"><span>相对通光量（理想模型）</span><strong id="brightness">50%</strong></div>
+</div>
+<div class="readout" id="status" aria-live="polite"></div>
+</section>
+</div>
+<section class="panel explain">
+<h2>观察重点</h2>
+<p><strong>① 从一个点出发：</strong>选中物体上的任一点 P，或使用独立点光源 S；这个点 向不同方向发出光。射向透镜外部的光不会被它折射；射向遮光部分的光会在遮光板处被截断；射向透明部分的光仍然会聚在<strong>同一个像点 S′</strong>。</p>
+<p><strong>② 再看完整物体：</strong>箭头上不同位置的发光点，各自都有多条光线能穿过透镜的不同部分，并分别汇聚到对应像点。因此，只遮挡透镜的一部分，<strong>不会裁掉像的一部分，而是减少每个像点收到的光，使整幅像变暗。</strong></p>
+<p class="details">模型说明：采用理想薄凸透镜、近轴光线、均匀通光的简化教学模型。像的位置由物距、焦距决定，与遮挡比例无关；相对亮度近似按未遮挡通光比例显示。图上光线是选取的有限条“示踪光线”，计数不代表真实光子数。全遮住透镜时无法看到像，本实验滑块上限为 95%。</p>
+</section>
+<div class="footer">万有引力事务所 · PHYSICS IS STRONGER THAN ANY FAITH.</div>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const SVG_NS='http://www.w3.org/2000/svg';
+const sx=130, lensX=490, screenX=865, axisY=275;
+const lensTop=115,lensBottom=435,lensHeight=lensBottom-lensTop;
+const doDist=lensX-sx, diDist=screenX-lensX;
+// Gaussian thin-lens equation: 1/f = 1/do + 1/di
+const f=doDist*diDist/(doDist+diDist);
+const magnification=-diDist/doDist;
+const topObjectY=166, bottomObjectY=axisY;
+function selectedObjectY(){return axisY-(axisY-topObjectY)*Number($('pointPosition').value)/100;}
+let raf=null, playing=false, start=null;
+function element(name,attrs,parent){const el=document.createElementNS(SVG_NS,name);for(const [k,v] of Object.entries(attrs||{}))el.setAttribute(k,String(v));if(parent)parent.appendChild(el);return el}
+function clear(el){while(el.firstChild)el.removeChild(el.firstChild)}
+function line(parent,x1,y1,x2,y2,color,width=1.7,opacity=1,dash=''){return element('line',{x1,y1,x2,y2,stroke:color,'stroke-width':width,opacity,'stroke-linecap':'round',...(dash?{'stroke-dasharray':dash}:{})},parent)}
+function label(parent,x,y,s,color='#303030',size=15,anchor='middle'){const e=element('text',{x,y,fill:color,'font-size':size,'text-anchor':anchor},parent);e.textContent=s;return e}
+function objectSamples(){const mode=$('mode').value;if(mode==='point')return [{y:topObjectY,weight:1}];if(mode==='selected')return [{y:selectedObjectY(),weight:1}];return [{y:topObjectY,weight:1},{y:220,weight:1},{y:axisY,weight:1}]}
+function imageY(y){return axisY+(y-axisY)*magnification}
+function blocked(y,c,dir){const cutoff=lensHeight*c;return dir==='top'?y<=lensTop+cutoff:y>=lensBottom-cutoff}
+function render(){const coverage=Number($('coverage').value)/100,dir=$('direction').value,mode=$('mode').value;
+$('coverageValue').value=Math.round(coverage*100)+'%';
+$('pointRow').style.display=mode==='selected'?'block':'none';
+$('selectHitArea').style.display=mode==='selected'?'block':'none';
+$('pointValue').value=Number($('pointPosition').value)===0?'根部 0%':Number($('pointPosition').value)===100?'顶部 100%':Number($('pointPosition').value)+'%';
+for(const k of ['lightRays','shutter','source','image','focalMarks','shutterLabel'])clear($(k));
+const rays=$('lightRays'),source=$('source'),image=$('image'),shutter=$('shutter');
+const n=25,first=lensTop+9,last=lensBottom-9;
+let countPassed=0,countBlocked=0;
+const samples=objectSamples();
+for(const {y:sy} of samples){
+  // Gray rays travel outside the lens aperture, rather than being secretly refracted.
+  for(const yLens of [24,48,73,93,457,479,509]){
+    const farX= Math.min(675,sx+(lensX-sx)*1.38);
+    const farY=sy+(yLens-sy)*(farX-sx)/(lensX-sx);
+    line(rays,sx,sy,farX,farY,'#9a9fa9',1.15,.34);
+  }
+  for(let i=0;i<n;i++){
+    const ty=first+(last-first)*i/(n-1);
+    if(blocked(ty,coverage,dir)){
+      // Drawing decision follows actual covered portion of the visible aperture.
+      line(rays,sx,sy,lensX-5,ty,'#e14d56',1.7,.64);
+      element('path',{d:`M${lensX-10} ${ty-5}l10 10m0 -10l-10 10`,stroke:'#c63c46','stroke-width':1.7,fill:'none',opacity:.85},rays);
+      countBlocked++;
+    }else{
+      line(rays,sx,sy,lensX,ty,'#f37021',1.4,.43);
+      line(rays,lensX,ty,screenX,imageY(sy),'#f37021',1.4,.44);
+      countPassed++;
+    }
+  }
+}
+// Draw the glass in front of the rays; the mask occupies the upper/lower physical aperture.
+// The ray renderer is actually behind the glass/mask in SVG DOM order.
+const coverPx=lensHeight*coverage;
+if(coverage>0){const y0=dir==='top'?lensTop:lensBottom-coverPx;
+  element('rect',{x:lensX-20,y:y0,width:40,height:coverPx,fill:'#303030',rx:2},shutter);
+  for(let y=y0+7;y<y0+coverPx-3;y+=11)line(shutter,lensX-20,y,lensX+20,Math.min(y+12,y0+coverPx),'#6f7278',1,.6);
+  label($('shutterLabel'),lensX+45,dir==='top'?lensTop+20:lensBottom-10,'遮光板','#bb3646',14,'start');
+}
+const mark=$('focalMarks');
+for(const x of [lensX-f,lensX+f]){line(mark,x,axisY-8,x,axisY+8,'#597e94',2);label(mark,x,axisY+25,'F','#597e94',14)}
+for(const x of [lensX-2*f,lensX+2*f]){if(x>25&&x<1030){line(mark,x,axisY-5,x,axisY+5,'#a3aab0',1.6);label(mark,x,axisY+23,'2F','#9ca5ad',12)}}
+if(mode==='selected'){
+  // The complete object is still visible; one chosen point alone emits the traced bundle.
+  line(source,sx,axisY,sx,topObjectY,'#aab1b9',5,.7);
+  element('path',{d:`M${sx-11} ${topObjectY+15}L${sx} ${topObjectY}L${sx+11} ${topObjectY+15}`,stroke:'#aab1b9','stroke-width':4,fill:'none',opacity:.7},source);
+  label(source,sx-18,topObjectY-6,'物体','#687786',15,'end');
+  const py=selectedObjectY();
+  element('circle',{cx:sx,cy:py,r:9,fill:'#f37021',stroke:'#fff','stroke-width':2},source);
+  element('circle',{cx:sx,cy:py,r:15,fill:'none',stroke:'#f37021','stroke-width':1.5,opacity:.55},source);
+  label(source,sx-20,py+4,'选中物点 P','#ae4c0c',14,'end');
+  const iy=imageY(py);
+  element('circle',{cx:screenX,cy:iy,r:8,fill:'#f37021',opacity:Math.max(.06,1-coverage)},image);
+  element('circle',{cx:screenX,cy:iy,r:12,fill:'none',stroke:'#ffffff','stroke-width':1.5,opacity:Math.max(.2,1-coverage)},image);
+  label(image,screenX+16,iy-12,'P′','#ffffff',17,'start');
+}else if(mode==='point'){
+  element('circle',{cx:sx,cy:topObjectY,r:8,fill:'#f37021'},source);label(source,sx-8,topObjectY-16,'点光源 S','#bb5315',16,'end');
+  element('circle',{cx:screenX,cy:imageY(topObjectY),r:8,fill:'#f37021',opacity:Math.max(.055,1-coverage)},image);
+  label(image,screenX+15,imageY(topObjectY)-12,'S′','#ffffff',18,'start');
+}else{
+  line(source,sx,axisY,sx,topObjectY,'#e57125',5);element('path',{d:`M${sx-12} ${topObjectY+15}L${sx} ${topObjectY}L${sx+12} ${topObjectY+15}`,stroke:'#e57125','stroke-width':5,fill:'none'},source);
+  label(source,sx-16,topObjectY-4,'物体','#aa561e',16,'end');
+  const endY=imageY(topObjectY),a=Math.max(.055,1-coverage);
+  line(image,screenX,axisY,screenX,endY,'#f37021',8,a);
+  element('path',{d:`M${screenX-14} ${endY-15}L${screenX} ${endY}L${screenX+14} ${endY-15}`,stroke:'#f37021','stroke-width':8,fill:'none',opacity:a},image);
+  label(image,screenX+12,endY+24,'完整倒立实像','#ffffff',14,'start');
+}
+const total=n*samples.length;
+$('eligibleCount').textContent=total;
+$('blockedCount').textContent=countBlocked;
+$('passedCount').textContent=countPassed;
+$('brightness').textContent=Math.round((1-coverage)*100)+'%';
+$('status').innerHTML=(mode==='selected'?`当前选中物点位于物体高度的 <b>${$('pointPosition').value}%</b>，其像点 P′ 在光屏上的高度随物点改变。<br>`:'')+`此时遮住 <b>${Math.round(coverage*100)}%</b> 的透镜口径。原本射向透镜的 <b>${total}</b> 条示踪光线中，<b style="color:#ca3341">${countBlocked}</b> 条被挡住，<b style="color:#b95612">${countPassed}</b> 条仍然经过透镜。<br><b>像的位置与形状不变，只有亮度降低。</b>`;
+}
+function stop(){playing=false;if(raf!==null)cancelAnimationFrame(raf);raf=null;start=null;$('play').textContent='▶ 自动演示'}
+function play(){if(playing){stop();return}playing=true;start=null;$('play').textContent='Ⅱ 暂停';const begin=Number($('coverage').value);
+const tick=ts=>{if(!playing)return;if(start===null)start=ts;const val=Math.min(95,begin+(ts-start)/70);$('coverage').value=Math.round(val);render();if(val>=95){stop();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
+$('mode').addEventListener('change',render);
+$('pointPosition').addEventListener('input',render);
+$('selectHitArea').addEventListener('pointerdown',event=>{const svg=$('scene');const pt=svg.createSVGPoint();pt.x=event.clientX;pt.y=event.clientY;const transform=svg.getScreenCTM();if(!transform)return;const pos=pt.matrixTransform(transform.inverse());const percent=(axisY-pos.y)/(axisY-topObjectY)*100;$('pointPosition').value=Math.round(Math.max(0,Math.min(100,percent)));render();});$('direction').addEventListener('change',render);$('coverage').addEventListener('input',()=>{if(playing)stop();render()});$('play').addEventListener('click',play);$('reset').addEventListener('click',()=>{stop();$('coverage').value=0;$('direction').value='top';$('mode').value='selected';$('pointPosition').value=100;render()});
+render();
+</script>
+</body></html>
